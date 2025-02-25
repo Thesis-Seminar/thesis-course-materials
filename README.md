@@ -114,22 +114,22 @@ leave: expectations are very high.
 **Topic:** Break
 
 ### Feb 25
-**Topic:** Methods ([Diff in Diff](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/11-diff-in-diff/11-diff-in-diff.html#1), [Instrumental Variables](https://raw.githack.com/edrubin/EC421W19/master/LectureNotes/11InstrumentalVariables/11_instrumental_variables.html#1), [Regression Discontinuity](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/12-regression-discontinuity/12-regression-discontinuity.html#1))
+**Topic:** [Replication and Clean Code](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/04-replication/04-replication.html#1)
 **Reading:** [Practioner's Guide](literature/CodeAndData-Gentzkow-Shapiro.pdf)  
 **Assignments:** [Data Report](assignments/data_report.md) 
 
 ### March 4
-**Topic:** Results
+**Topic:** Individual meetings
 **Reading:** [Angrist & Pischke (2008) Ch. 5](https://jonnyphillips.github.io/FLS6415/Class_3/Angrist%20&%20Pischke.pdf), [Posts by Andrew Baker on implementation of DiD](https://andrewcbaker.netlify.app/#articles)  
 **Assignments:** [Replication documentation](assignments/replication_documentation.md), [Labs by Scott Cunningham](https://github.com/Mixtape-Sessions/Causal-Inference-2/tree/main?tab=readme-ov-file)
 **Presentation**: [Data Section](assignments/data_section.md)
 
 ### Mar 11
-**Topic:** Individual Meetings  
+**Topic:** Methods ([Diff in Diff](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/11-diff-in-diff/11-diff-in-diff.html#1), [Instrumental Variables](https://raw.githack.com/edrubin/EC421W19/master/LectureNotes/11InstrumentalVariables/11_instrumental_variables.html#1), [Regression Discontinuity](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/12-regression-discontinuity/12-regression-discontinuity.html#1))
 **Assignments:** [Data section](assignments/data_section.md)
 
 ### Mar 18
-**Topic:** 
+**Topic:** Results
 **Assignments:** [Methods Section](assignments/methods.md)
 **Presentation:** [Methods](assignments/methods.md)
 
