@@ -118,31 +118,28 @@ leave: expectations are very high.
 **Reading:** [Practioner's Guide](literature/CodeAndData-Gentzkow-Shapiro.pdf)  
 **Assignments:** [Data Report](assignments/data_report.md) 
 
-### March 1
+### March 4
 **Topic:** Results
 **Reading:** [Angrist & Pischke (2008) Ch. 5](https://jonnyphillips.github.io/FLS6415/Class_3/Angrist%20&%20Pischke.pdf), [Posts by Andrew Baker on implementation of DiD](https://andrewcbaker.netlify.app/#articles)  
 **Assignments:** [Replication documentation](assignments/replication_documentation.md), [Labs by Scott Cunningham](https://github.com/Mixtape-Sessions/Causal-Inference-2/tree/main?tab=readme-ov-file)
 **Presentation**: [Data Section](assignments/data_section.md)
 
-### Mar 8
+### Mar 11
 **Topic:** Individual Meetings  
 **Assignments:** [Data section](assignments/methods_and_data.md)
 
-### Mar 15
+### Mar 18
 **Topic:** 
 **Assignments:** [Methods Section](assignments/methods_and_data.md)
 **Presentation:** [Methods and data section](assignments/methods_and_data.md)
 
-### Mar 22
+### Mar 25
 **Topic:** [Results workshop](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/06-results-workshop/06-results-workshop.html#1)  
 **Reading:** [Robustness checks](https://www.nickchk.com/robustness.html)
 
-### Mar 29
+### Apr 1
 **Topic:** Individual Meetings, [Poster Workshop](https://www.bates.edu/post-and-print/poster-printing/)  
 **Assignments:** Results due
-
-### Apr 1
-**Topic:** [Public speaking for academic economists by Meager (2017)](literature/Public-Speaking-for-Academic-Economists-Meager.pdf), Practice Presentations
 
 ### Apr 8
 **Topic:** Final Presentations  

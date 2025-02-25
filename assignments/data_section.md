@@ -34,7 +34,7 @@ economics articles as part of your preparation.
 
 ### Presentations
 
-Presentations will be on March 5th and 7th. You will have 10 minutes to present your data. 
+Presentations will be on March 4th. You will have 10 minutes to present your data. 
 
 I'll assign the order of presentations below as the date approaches. 
 
