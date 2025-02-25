@@ -2,15 +2,17 @@
 
 This repository contains those materials used to provide guidance on the Winter 2024 thesis seminar taught by Professor Kyle Coombs. This is a living syllabus that students can use to navigate the course. 
 
-## Class times
+## Class info
 
-Tuesdays from 7:30pm to 10:30pm.
+- Class Hours: T 7:30-10:30pm
+- Classroom: PGill 127
+- Office: PGill 161
+- Office Hours: T, 3-4pm, W 10:30-11:30am, or by request (Zoom or in-peron) 
+  - Subject to change due to schedule
 
 ### E-mail: kcoombs@bates.edu
 
 You can also tag me @kgcsport in Issues and Discussions. 
-
-### Office: Pettengill 161
 
 Full syllabus is available [here](https://github.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/blob/main/syllabus.md) or as a [PDF](https://github.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/blob/main/syllabus.pdf).
 
@@ -84,7 +86,7 @@ leave: expectations are very high.
 ## Timeline
 
 ### Jan 14
-**Topic:** [Research Questions](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/01-getting-started/01-getting-started.html), [What makes research "good"?](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/01-getting-started/02-good-research.html)
+**Topic:** [Research Questions](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/01-getting-started/01-getting-started.html)
 **Reading:** Angrist & Pischke (2008) Ch. 1, [Four Steps](literature/Applied-Micro-Steps-Shapiro.pdf), [Frick et al. (2023)](literature/NetflixStreaming-DiD-EventStudy_2021.pdf)
 **Assignments:** Two research questions, [Create GitHub Repository and clone it to your computer](assignments/github_repository_project_directory.md)
 
@@ -93,7 +95,7 @@ leave: expectations are very high.
 **Assignments:** Previous Thesis Report, [Two detailed question proposals](assignments/detailed_question_proposals.md)
 
 ### Jan 28
-**Topic:** Pitches, [Identification](https://nickch-k.github.io/introcausality/Lectures/Lecture_13_Causality.html#/so), [Applied Micro Talk](literature/Applied-Micro-Talk-Shapiro.pdf)  
+**Topic:** Pitches, [What makes research "good"?](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/02-good-research/02-good-research.html#1), [Applied Micro Talk](literature/Applied-Micro-Talk-Shapiro.pdf)  
 **Reading:** [The Effect Ch. 5](https://theeffectbook.net/ch-Identification.html)  
 **Assignments:** [Annotated bibliography](assignments/annotated_bibliography.md)
 **Presentation:** [5-minute presentations of ideas](assignments/initial_pitch.md)

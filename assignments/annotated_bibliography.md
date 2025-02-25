@@ -48,3 +48,13 @@ Keep in mind the following elements of a good research question and hypothesis:
 - Uses active verbs
 - Creates tension
 - Moves beyond a summary
+- 
+
+#### Formatting and submission guidelines
+
+1. Pages: roughly 5 pages
+2. Upload a PDF to your GitHub repo
+- If you type in Google Docs: link to Google Docs
+- If you type in tex/LyX: upload as well (I may edit)
+- If you type on Microsoft word: upload .docx file (I may edit)
+3. Readable font (I'm not picky)

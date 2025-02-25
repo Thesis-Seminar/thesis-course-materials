@@ -21,13 +21,10 @@ E-mail: `kcoombs@bates.edu`
 Web: [kylecoombs.com](http://kylecoombs.com)
 GitHub: @kgcsport
 
-- Office Hours: T, 3-4pm, W 10:30-11:30am, or by request (Zoom or in-person)
-- Class Hours: T/Th 1:10-2:30pm
-- Office: PGill 161
-- Classroom: PGill 127
-
 Course Website: [https://github.com/Bates-ECON456-Thesis-Seminar](https://github.com/Bates-ECON456-Thesis-Seminar)  
 OH Link: [https://calendar.app.google/XF36Ujpg9NcJbSD58](https://calendar.app.google/XF36Ujpg9NcJbSD58)
+
+See Course website for OH, classroom, class time, etc. 
 
 _You can get in touch with me via email, but please always write **[ECON 456 - Senior Thesis]** in the subject. Alternatively, as you start using GitHub, you can raise an issue/post in discussions and type @kgcsport to get my attention. Please add me as a collaborator on your page as well. I will aim to respond as quickly as possible via email or if beneficial to the class, I will share with everyone._
 
