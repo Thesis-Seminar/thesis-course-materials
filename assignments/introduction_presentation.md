@@ -4,7 +4,7 @@
 
 Each student will present their prospective capstone topic to the class. You should plan on presenting for 9-12 minutes. _Note: 12 minutes is a hard cap to allow everyone time to present._ Your presentation should include the following elements:
 
-### Writeup due: Feb 8th
+### Writeup due: Feb 11th
 
 For 2/8, please submit a draft of your introduction^[All economists’ introductions have the same function, but they may have different forms. Many economists follow Keith Head’s “introduction formula”. You may find the introduction formula to be a useful template. (But McCloskey (1985) reminds you to “avoid boilerplate”.)
 ] in your GitHub repository and bring two hard copies to class. Your draft should cover each of the elements above (to the extent possible). Remember that an introduction is outlining your entire paper, from motivation to a results preview! I am not providing a specific page limit, but I suspect 4-7 pages will be reasonable in most cases. I encourage you to re-read several introductions from published economics articles as part of your preparation.

@@ -106,7 +106,7 @@ leave: expectations are very high.
 **Presentation:** [Proposal Presentations](assignments/introduction_presentation.md)
 
 ### Feb 11
-**Topic:** [Reproducible Research](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/02-empirical-workflow/02-empirical-workflow.html#1), Proposal  
+**Topic:** [Data Tips](https://big-data-and-economics.github.io/big-data-class-materials/lectures/03-data-tips/03-data-tips.html), [Reproducible Research](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/02-empirical-workflow/02-empirical-workflow.html#1), Proposal  
 **Reading:** [Bellemare (2020)](literature/How-to-Write-Applied-Papers-Bellemare-2020.pdf), [Head (2008)](https://blogs.ubc.ca/khead/research/research-advice/formula), [McCloskey (1993)](literature/Economical-Writing-McCloskey-1993.pdf)  
 **Assignments:** [Proposal/Introduction](assignments/introduction_presentation.md)
 
