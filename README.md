@@ -126,12 +126,12 @@ leave: expectations are very high.
 
 ### Mar 11
 **Topic:** Individual Meetings  
-**Assignments:** [Data section](assignments/methods_and_data.md)
+**Assignments:** [Data section](assignments/data_section.md)
 
 ### Mar 18
 **Topic:** 
-**Assignments:** [Methods Section](assignments/methods_and_data.md)
-**Presentation:** [Methods and data section](assignments/methods_and_data.md)
+**Assignments:** [Methods Section](assignments/methods.md)
+**Presentation:** [Methods](assignments/methods.md)
 
 ### Mar 25
 **Topic:** [Results workshop](https://raw.githack.com/Bates-ECON456-Thesis-Seminar/thesis-course-materials/main/lecture/06-results-workshop/06-results-workshop.html#1)  
