@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Thesis</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Kyle Coombs (adapted from Tyler Ransom + Scott Cunningham)" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="ou-colors.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Thesis
+]
+.subtitle[
+## Lecture 2: Replication with Clean Code
+]
+.author[
+### Kyle Coombs (adapted from Tyler Ransom + Scott Cunningham)
+]
+.date[
+### Bates College | <a href="https://github.com/big-data-and-economics">EC/DCS 368</a>
+]
+
+---
+
+&lt;style type="text/css"&gt;
+# CSS for including pauses in printed PDF output (see bottom of lecture)
+@media print {
+  .has-continuation {
+    display: block !important;
+  }
+}
+&lt;/style&gt;
+
+
+
+# Table of contents
+
+1. [Prologue](#prologue)
+
+3. [Clean Code](#clean_code)
+  - [Automation](#automation)
+  - [Version Control](https://raw.githack.com/big-data-and-economics/big-data-class-materials/main/lectures/02-git/02-Git.html#1)
+  - [Organization of data and software files](#organization)
+  - [Abstraction](#abstraction)
+  - [Documentation](#documentation)
+  - [Time / task management](#time-task)
+  - [Test-driven development (unit testing, profiling, refactoring)](#test-driven)
+  - [Pair programming](#pair-programming)
+
+4. [Appendix: FAQ](#faq)
+
+---
+class: inverse, center, middle
+name: prologue
+
+# Prologue
+
+&lt;html&gt;&lt;div style='float:right'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;div align="center"&gt;
+&lt;img src="pics/code_quality.png"&gt;
+&lt;/div&gt;
+Source: [xkcd](http://xkcd.com/1513/)
+
+---
+
+# Attribution
+
+- Today's material comes from these sources:
+
+1. [Clean Code](https://raw.githack.com/OU-PhD-Econometrics/fall-2022/master/LectureNotes/01a-CleanCode/01aslides.html) by Tyler Ransom
+
+2. [*Code and Data for the Social Sciences: A Practitioner's Guide*](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf), by Gentzkow and Shapiro
+
+3. [Causal Inference and Research Design](https://github.com/scunning1975/mixtape) by Scott Cunningham
+
+4. [Jenny Bryan's UseR 2018 keynote address](https://www.youtube.com/watch?v=7oyiPBjLAWY)
+
+Also a small contribution from [here](https://garywoodfine.com/what-is-clean-code/) and other sundry internet pages
+
+---
+# Reducing empirical chaos
+
+## Sad story
+
+- Once upon a time there was a boy who was writing a job market paper on unemployment insurance during the pandemic
+
+- This boy presented the findings a half dozen times, spoke to the media some, and generally thought he had cool results
+
+- Several people suggested he look at a handful of other outcome series and try changing his analysis unit frequency from monthly to weekly
+
+- He also knew that he needed to restrict his sample to reduce noise
+
+---
+# The horror!
+
+- But then after making these changes and re-running his code that took two days, his new sample dropped by 50 percent!
+- He was, understandably, terrified.
+- The young boy spent a week looking for the fix weeding through six different versions of the .do, .R, .dta, .csv, .sh, .py files with suffixes like *_v1* and *_test* and *_test2* and *_final_I_swear* and *_okay_i_lied*
+- Finally he discovered the phrase:
+
+``` r
+df %&gt;% filter(insample_new==0)
+```
+**instead of**
+
+``` r
+df %&gt;% filter(insample_new==1)
+```
+- The boy was very frustrated and decided to work on these slides while re-running his code.
+
+- Minimize these struggles through Clean Code and a reproducible workflow
+
+---
+# Cleaning, organizating, collecting
+
+![Data wrangling takes time!](pics/time.png)
+
+---
+class: inverse, center, middle
+name: clean_code
+
+# Clean Code
+
+---
+# What is Clean Code?
+
+.hi[Clean Code:] Code that is easy to understand, easy to modify, and hence easy to debug
+
+--
+
+#### Clean code advances scientific progress
+
+- Good science uses careful observations to iteratively test hypotheses/make predictions
+
+- Scientific progress is impeded if
+
+    - mistaken previous results are erroneously given authority
+    - previous hypothesis tests are not reproducible
+    - previous methods and results are not transparent
+
+- Thus, for science that involves computer code, clean code is a must
+
+- Reduces "the influence of hidden researcher decisions" (Huntington-Klein et al. 2021)
+
+--
+
+#### Clean code increases personal/team sanity
+
+- You will always make a mistake while coding -- what makes good programmers great is their ability to identify and correct mistakes 
+
+- Clean code makes it easier to identify and correct mistakes
+
+- Saves you stress in the long-run and makes your collaborative relationships more pleasant
+
+---
+# Why clean code is under-produced
+
+- If clean code is so beneficial and important, why isn't there more of it?
+
+--
+
+1. .hi[Competitive pressure] to produce research/products as quickly as possible
+
+2. .hi[End user] (journal editor, reviewer, reader, dean) .hi[doesn't care what the code looks like], just that the product works
+
+3. In the moment, clean code .hi[takes longer to produce] while seemingly conferring no benefit
+
+---
+# How does one produce clean code?
+
+1. Organization of data and files
+
+2. Version Control&lt;sup&gt;1&lt;/sup&gt;
+
+3. Automation
+
+4. Abstraction
+
+5. Documentation
+
+6. Time / task management
+
+7. Test-driven development (unit testing, profiling, refactoring)
+
+8. Pair programming
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Handled in Git lecture notes.]
+
+---
+name: organization
+# 1a. File organization
+
+1. Separate directories by function
+
+2. Separate files into inputs and outputs
+
+3. Make directories portable
+
+- To see how professionals do this, check out the source code for R's [dplyr](https://github.com/tidyverse/dplyr) package
+
+    - There are separate directories for source code (`/src`), documentation (`/man`), code tests (`/test`), data (`/data`), examples (`/vignettes`), and more
+
+- When you use version control, it forces you to make directories portable (otherwise a collaborator will not be able to run your code)
+
+    - Use __relative__ file paths, not absolute file paths
+
+---
+# Don't be like this
+
+&lt;html&gt;&lt;div style='float:right'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+&lt;div align="center"&gt;
+&lt;img src="pics/documents_folder.png"&gt;
+&lt;/div&gt;
+Source: [xkcd](http://xkcd.com/1459/)
+
+---
+# What is a working directory?
+
+- All the files on your computer are organized in directories or folders
+
+- When you are running a script, you are working from a particular directory
+  - This is *not necessarily* the directory where the script is located
+  - Your computer looks for `my_data.csv` in this directory when you execute `read.csv('my_data.csv')`
+  - If that file is not in that directory, you will get a `FileNotFound` error
+  - In **R**, you can see what directory you are in using the `getwd()` function
+    - It is also above the console in RStudio
+    - You can double click the `.Rproj` file to set the working directory to the root of the project
+    - You can also change your working directory using the `setwd()` function (avoid this within scripts)
+
+
+``` r
+getwd()
+```
+
+```
+## [1] "c:/Users/kgcsp/OneDrive/Documents/Education/senior-thesis/thesis-course-materials/lecture/04-replication"
+```
+
+``` r
+setwd('lecture/04-replication')
+```
+
+---
+# What is a directory path?
+
+A path defines the location of a file or directory in a file system tree. If I navigate to this file in my computer, it is: 
+
+`C:\Users\kgcsp\OneDrive\Documents\Education\senior-thesis\thesis-course-materials\lecture\04-replication\04-replication.Rmd`&lt;sup&gt;1&lt;/sup&gt;
+
+The name separates folders that chart the path from the .hi[root] to the file
+  - .hi[root]: the start of the file system tree (above that is `C:\`)
+  - Each folder along the tree is separated by a `\` or `/`
+
+This is called an .hi[absolute path]:
+  - It is long, hard to remember, and not portable across computers
+
+.hi[Relative paths] solve a lot of this:
+  - The path to a file or directory starting from the current working directory
+  - If my working directory is `/thesis-course-materials`, then I can write `lecture\04-replication\04-replication.Rmd`
+  - **This is portable**: if you have a copy of the project folder, you can run the code
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; This is a Windows path, Mac and Linux paths use `/` instead of `\`. See appendix for slides on how to move between them using `..`]
+
+---
+# How I organize research projects
+
+- One project = one repository/folder
+- Each of you should turn in your thesis in a repository organized by folder
+- One potential organizational schema:
+    1. `data` for all data files
+        a. `raw` for raw data files
+        b. `clean` or `work` for cleaned data files
+        c. `temp` for temporary data files
+    2. `code` for all code files, and sometimes:
+        a. `code/analysis` for code files that build/clean code
+        a. `code/build` for code files that do analysis
+    3. `output` for all output files
+        a. `output/figures` for code files that make figures
+        b. `output/tables` for code files that make tables
+    4. `literature` or `articles` for all relevant literature
+    5. `writing` for all writing files
+        a. `writing/notes` for notes
+        b. `writing/drafts` for drafts
+        c. `writing/edits` for edits
+    6. `presentations` for all presentations
+        a. `presentations/slides` for slides
+        b. `presentations/notes` for notes
+- I'll further more or less as needed
+- See [the `thesis_sample` folder](https://github.com/Bates-ECON456-Thesis-Seminar/thesis-sample) on GitHub (in the same folder as this lecture) as an example
+
+---
+# On my computer
+
+![Directory structure](pics/directory_structure.png)
+
+---
+# What is the value of directories?
+
+- All of the files in a directory are related to each other
+
+- Can reference a file within the `data/raw` folder, from the `code/build` folder without writing out the full path
+
+- Then you do not need to worry about shifting around directories 
+
+- Reduces headaches of reproducing results with someone else's code
+
+---
+
+# 1b. Data organization
+
+- The key idea is to practice .hi[relational data base management]
+
+- A relational database consists of many smaller data sets
+
+- Each data set is tabular and has a unique, non-missing key
+
+- Data sets "relate" to each other based on these keys
+
+- You can implement these practices in any modern statistical analysis software (R, Stata, SAS, Python, Julia, SQL, ...)
+
+- Gentzkow &amp; Shapiro recommend not merging data sets until as far into your code pipeline as possible
+
+---
+# What problems would this create?
+
+
+```
+##    county state cnty_pop state_pop region_state region_county
+## 1   36037    NY  3817735  43320903            1             1
+## 2   36038    NY   422999  43320903            1             1
+## 3   36039    NY   324920        NA            1             1
+## 4   36040  &lt;NA&gt;   143432  43320903            1             1
+## 5      NA    NY       NA  43320903            1             1
+## 6   37001    VA  3228290   7173000            3             3
+## 7   37002    VA   449499   7173000            3             3
+## 8   37003    VA   383888   7173000            3             4
+## 9   37004    VA   483829   7173000            3             3
+## 10     NA    VA       NA   7173000            3             3
+```
+
+--
+
+### Why is RDBM better?
+
+.pull-left[
+
+```
+##   county state cnty_pop
+## 1  36037    NY  3817735
+## 2  36038    NY   422999
+## 3  36039    NY   324920
+## 4  36040    NY   143432
+## 5  37001    VA  3228290
+## 6  37002    VA   449499
+## 7  37003    VA   383888
+## 8  37004    VA   483829
+```
+]
+.pull-right[
+
+```
+##   state state_pop region
+## 1    NY  43320903      1
+## 2    VA   7173000      3
+```
+]
+
+Source: [Example from Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) (p. 19)
+
+---
+name: automation
+# 3. Automation
+
+- Gentzkow &amp; Shapiro's two rules for automation:
+
+1. Automate everything that can be automated
+
+2. Write a single script that executes all code from beginning to end
+
+- There are two reasons automation is so important
+
+    - Reproducibility (helps with debugging and revisions)
+
+    - Efficiency (having a code base saves you time in the future)
+
+- All data wrangling, cleaning, and analysis should be automated
+
+- If the data download can be automated, automate it (if not document instructions)
+
+---
+# Write modular code
+
+- Code should be broken into small, modular scripts
+
+- Each script should do one thing and one thing only (e.g. one input, one output)
+
+    - Taking in a raw file and returning a cleaned version
+    - Taking in two files and merging them
+    - Taking in a cleaned file and returning a figure
+
+- Think of it like an essay: 
+  - intro paragraph =/= body paragraph 1 =/= ... =/= conclusion
+  - a script that cleans data =/= a script that merges data =/= a script that analyzes data
+  
+- Like essays revisions, modular code makes it easier to debug and revise
+
+#### Have a main script that runs all scripts in order
+
+- A single script that shows the sequence of steps, i.e. "shows your work"
+  - This script will run modular scripts in sequence to exactly reproduce your analysis
+
+- You will rarely run it all at once, but it will be a nice way to organize your thoughts
+
+- A benefit of a well-organized directory: easily see what scripts you need to run in what order
+
+- In R, use `source('rscript.R')` to run a script from one script
+
+- A main script could be a `.Rmd`, a `.R`, a `.sh`, a `.py`, a `.do` etc.
+
+---
+name: main-script
+class: white-slide
+# Main script 
+
+.scroll-output[
+
+``` r
+#File: main.R.R
+#By: Kyle Coombs
+#What: Runs the project from start to finish in Python
+#Date: 2024-09-0
+# Instructions:
+# Run this code from the root directory of your project
+
+#Install packages with housekeeping. Also put together paths.
+source('housekeeping.R')
+#User written functions can be sourced -- or you could write a package, your call
+source(paste0(build,'clean_functions.R'))
+source(paste0(analysis,'analysis_functions.R'))
+
+#Import files
+source(paste0(build,'import_census.R'))
+source(paste0(build,'import_admin_data.R'))
+
+#Clean files
+source(paste0(build,'clean_census.R'))
+source(paste0(build,'clean_admin_data.R'))
+
+#Merge files 1 to 2
+source(paste0(build,'merge_census_admin.R'))
+
+#Analysis
+source(paste0(analysis,'/summary_stats.R'))
+source(paste0(analysis,'/basic_regression.R'))
+
+#Tables will likely be made with a host of R packages
+source(paste0(analysis,'/make_sum_figures.R'))
+source(paste0(analysis,'/make_reg_figures.R'))
+source(paste0(analysis,'/make_sum_tables.R'))
+source(paste0(analysis,'/make_reg_tables.R'))
+```
+]
+
+[Main script with functions](main-with-functions) and Main script with [Stata](main-stata.do)
+
+---
+# What's a housekeeping file?
+
+A housekeeping file .hi[automates] several tasks and goes at the start of every file in your project
+
+1. Load packages/ssc install packages
+
+2. Save strings of path directories to reference throughout script&lt;sup&gt;1&lt;/sup&gt;
+  - If a folder name changes, you only need to change it in one place in your code
+  - Use strings to reference files in other scripts `read.csv(file.path(data_raw,'my_data.csv'))` or in stata `use "$data_raw/my_data.dta"`
+
+3. Automate creation of directories
+
+Can be done in any language, but I provide examplse in `R` and [Stata](housekeeping.do)
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Alternatives to `file.path()` include `paste` and `here()`. Check [appendix example](#here) for more information.]
+
+---
+class: white-slide
+
+
+``` r
+# Housekeeping.R
+# By: Your Name
+# Date: YYYY-MM-DD
+# What: This script loads the packages and data needed for the analysis.
+
+## Package installation -- uncomment if running for the first time
+#install.packages(c('tidyverse'))
+library(tidyverse)
+library(haven) # installed by tidyverse
+
+## Directory objects
+data_dir &lt;- file.path('data')
+raw_dir &lt;- file.path(data_dir,'raw')
+clean_dir &lt;- file.path(data_dir,'clean')
+output_dir &lt;- file.path('output')
+code_dir &lt;- file.path('code')
+processing_dir &lt;- file.path(code_dir,'processing')
+analysis_dir &lt;- file.path(code_dir,'analysis')
+documentation_dir &lt;- file.path('documentation')
+
+# Create directories
+suppressWarnings({
+    dir.create(data_dir)
+    dir.create(raw_dir)
+    dir.create(clean_dir)
+    dir.create(documentation_dir)
+    dir.create(code_dir)
+    dir.create(processing_dir)
+    dir.create(analysis_dir)
+    dir.create(output_dir)
+})
+```
+
+---
+name: abstraction
+# 4. Abstraction
+
+- .hi[Abstraction:] "reducing the complexity of something by hiding unnecessary details from the user" 
+
+- e.g. A dishwasher. I mainly need to know how to load it, put in soap, and press start. I don't need to understand the electrical wiring or plumbing.
+
+- In programming, abstraction is usually handled with functions
+
+- Abstraction is usually a good thing
+
+- But it you can go too far: overly abstract code can be "impenetrable" and difficult to modify or debug
+
+#### Gentzkow &amp; Shapiro give three rules for abstraction:
+
+1. Abstract to eliminate redundancy
+
+2. Abstract to improve clarity
+
+3. Otherwise, don't abstract
+
+- In the context of R, abstraction means:
+  - Write functions
+  - Name your objects sensibly
+
+---
+
+# Abstract to eliminate redundancy
+
+- Sometimes you might find yourself repeating lines of code to accomplish a task
+
+
+``` r
+# Downloading a sequence of files from 2004 to 2020 gets tedious
+download.file('https://data.nber.org/tax-stats/zipcode/2020/zipcode2020.zip',destfile=paste0(data_dir,'zipcode2020.zip',sep='/'))
+download.file('https://data.nber.org/tax-stats/zipcode/2019/zipcode2019.zip',destfile=paste0(data_dir,'zipcode2019.zip',sep='/'))
+download.file('https://data.nber.org/tax-stats/zipcode/2019/zipcode2019.zip',destfile=paste0(data_dir,'zipcode2018.zip',sep='/'))
+# etc.
+```
+
+Notice any problems?
+
+
+``` r
+# Downloading a sequence of files from 20 wih a loop
+lapply(2004:2020,function(y) {
+    download.file(paste0('https://data.nber.org/tax-stats/zipcode/',y,'/zipcode',y,'.zip'),destfile=paste0(data_dir,'zipcode',y,'.zip',sep='/'))
+})
+```
+
+- We'll learn more about iteration/for loops/appy statements later
+
+- There are many forms of redundancy that can be eliminated with abstraction beyond iteration
+
+---
+# Abstract to improve clarity
+
+Say you want to round a number to the nearest of different integers: 
+
+1. Divide the number by there base integer
+2. Round the result to the nearest whole number
+3. Multiply by the base integer
+
+I start coding and copy and paste the code for each integer:
+
+
+``` r
+rounded_157_nearest_5 &lt;- round(157/5)*5
+rounded_157_nearest_7 &lt;- round(157/5)*7
+```
+
+--
+
+Notice a problem? 
+
+--
+
+Why not abstract with a function?
+
+
+``` r
+round_to_nearest &lt;- function(x,base=5) {
+    return(round(x/base)*base)
+}
+
+rounded_157_nearest_5 &lt;- round_to_nearest(157,base=5)
+rounded_157_nearest_7 &lt;- round_to_nearest(157,base=7)
+```
+
+The second approach is easier to read and understand what the code is doing!
+
+---
+# Otherwise, don't abstract
+
+1. Write/use functions for tasks that are repeated
+2. Write thoughtful variable names (e.g. `x100, x101` versus `household_income`, `household_size`)
+
+- If we're only doing it once in our script, then it may not make sense to use the function version
+
+- This discussion points out that it can be difficult to know if one has reached the optimal level of abstraction
+
+- As you're starting out programming, I would advise doing almost everything inside of a function (i.e. err on the side of over-abstraction when starting out)
+  - And look for opportunities to loop (or use apply functions)
+
+---
+name: documentation
+# 5. Documentation
+
+Documentation gives sufficient information to replicate work, but not so much that it is overwhelming&lt;sup&gt;1&lt;/sup&gt;
+
+### Rules for documentation
+
+1. Don't write documentation you will not maintain
+
+2. Code should be self-documenting
+
+- Generally speaking, commented code is helpful
+
+- However, sometimes it can be harmful if, e.g. code comments contain dynamic information
+
+- It may not be helpful to have to rewrite comments every time you change the code
+
+- Code can be "self-documenting" by naming functions and variables thoughtfully
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Anyone who has ever built IKEA furniture knows this all too well]
+
+#### Documentation in R
+
+- .hi[R Help System:] access using `?function_name`
+
+- .hi[Package vignettes:] access using `vignette("vignette_name")`
+
+- .hi[Cheatsheets:] access at [Posit Cheatsheets](https://posit.co/resources/cheatsheets/)
+
+---
+# A README is documentation 
+
+- A README gives high-level information about the repository or data file:
+  - This repository contains code that does X task
+  - Simple use case: use this repository to replicate paper X in journal Y
+
+- Onboarding instructions:
+  - Add your name to this file in repository folder `the/folder/file.md`
+  - Fork the repository and pull request changes
+  - Configure your computer settings in this way to run this project
+  - Guidelines/rules for contributing to the project
+
+- Licensing information:
+  - You can just take this code!
+  - This is proprietary and we will sue you if you haven't paid us
+
+- Dependencies:
+  - To use this code or package or data_dir download packages `X`, `Y`, `Z`
+
+- Changelog (short narrative commit history):
+  - 9/23/2023 - KGC - added function `X` to do `Y`
+
+---
+name: time-task
+# 6. Time and task management
+
+### Time management
+
+- Time management is key to writing clean code&lt;sup&gt;1&lt;/sup&gt;
+
+- It is foolish to think that one can write clean code in a strained mental state
+
+- Code written when you are groggy, overly anxious, or distracted will come back to bite you
+
+- Schedule long blocks of time (1.5 hours - 3 hours) to work on coding where you eliminate distractions (email, social media, etc.)
+
+- Stop coding when you feel that your focus or energy is dissipating
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Your professor needs this lecture too]
+
+### Task management
+
+- When collaborating on code, avoid email or Slack threads to discuss coding tasks
+
+- Rather, use a task management system that has dedicated messages for a particular point of discussion (bug in the code, feature to develop, etc.)
+
+- I use GitHub issues and milestones for all of my coding projects including [developing this class](https://github.com/orgs/big-data-and-economics/projects/2)
+
+---
+name: test-driven
+# 7. Test-driven development
+
+- The only way to know that your code works is to test it!
+
+- Test-driven development (TDD) consists of a suite of tools for writing code that can be automatically tested
+
+- Simplest test is to check if the code gives you the output you expected
+  - Whenever you make a change, check it against the output you expect
+  - Ideally, check against a small example so it runs fast and is easy to confirm
+
+- What if the code takes too long to check completely? Meet .hi[unit tests]
+
+- .hi[Unit testing] is nearly universally used in professional software development
+
+---
+# Unit testing
+
+- Unit tests are scripts that check that a piece of code does everything it is supposed to do
+
+- When professionals write code, they also write unit tests for that code at the same time
+
+- If code doesn't pass tests, then bugs are caught immediately
+
+- R's [dplyr package](https://github.com/tidyverse/dplyr) shows that all unit tests are passing and that tests cover 91% of the code base
+
+- [testthat](https://testthat.r-lib.org/) is a nice step-by-step guide for doing this in R (I use it to autograde exercises)
+
+### Assertions
+
+- Assert statements are extremely useful for basic unit tests
+- They exist in every langage
+- In R it is called stopifnot()
+
+
+``` r
+x &lt;- TRUE
+stopifnot(x)
+
+y &lt;- FALSE
+stopifnot(y)
+```
+
+```
+## Error: y is not TRUE
+```
+---
+
+# 8. Pair programming - work with a buddy
+
+- An essential part of clean code is reviewing code
+
+- An excellent way to review code is to do so at the time of writing
+
+- .hi[Pair programming] involves sitting two programmers at one computer
+
+- One programmer does the writing while the other reviews
+
+- This is a great way to spot silly typos and other issues that would extend development time
+
+- It's also a great way to quickly refactor code at the start
+
+- .hi[I strongly encourage you to do pair programming on problem sets in this course!]
+    - (Sometimes I will require it)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
