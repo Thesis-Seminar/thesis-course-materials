@@ -26,7 +26,7 @@ can as well as a plan for incomplete elements.
 
 ### Presentations
 
-Presentations will be on March 4th. You will have 10 minutes to present your data. 
+Presentations will be on March 4th. You will have 5 minutes to present your data. 
 
 ###  Writeup
 
