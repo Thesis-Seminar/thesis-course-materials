@@ -8,7 +8,7 @@ This assignment entails completing one “thesis assignment”:
 
 - Your final product will feature all of this information in a single README or multiple READMEs depending on your preference. Just make clear where everything is.
 
-1. Thesis: Replication Documentation due 2/29 at midnight 
+1. Thesis: Replication Documentation due 3/4 at midnight 
 This component of the project entails the completion and submission of several data and
 replication documentation components, including:
 - Data processing code files [Code] or [Code/Build].
