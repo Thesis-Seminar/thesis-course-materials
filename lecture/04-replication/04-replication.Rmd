@@ -294,7 +294,7 @@ This is called an .hi[absolute path]:
 ---
 # On my computer
 
-![Directory structure](pics/directory_structure.png)
+![Directory structure](pics/directory_structure.jpg)
 
 ---
 # What is the value of directories?
